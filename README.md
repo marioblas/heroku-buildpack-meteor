@@ -1,4 +1,4 @@
-# Meteor Buildpack Horse
+# Meteor Buildpack Horse Base
 
 [![Horse](https://i.imgur.com/YhIL9zM.jpg)](https://commons.wikimedia.org/wiki/File:Draw-Costa_Rican-2smallest.jpg)
 
@@ -9,15 +9,21 @@ To use this with your meteor app and heroku:
 1. Set up your app to [deploy to heroku with git](https://devcenter.heroku.com/articles/git).
 2. Set this repository as the buildpack URL:
 
-        heroku buildpacks:set https://github.com/AdmitHub/meteor-buildpack-horse.git
+        heroku buildpacks:set https://github.com/marioblas/meteor-buildpack-horse-base.git
 
-3. Add the MongoLab addon:
-        
-        heroku addons:create mongolab
+3. Set the environment variables.
 
-4. Set the `ROOT_URL` environment variable. This is required for bundling and running the app.  Either define it explicitly, or enable the [Dyno Metadata](https://devcenter.heroku.com/articles/dyno-metadata) labs addon to default to `https://<appname>.herokuapp.com`.
+    *ROOT_URL*
 
         heroku config:set ROOT_URL="https://<appname>.herokuapp.com" # or other URL
+
+    *MONGO_URL*
+
+        heroku config:set MONGO_URL="<mlab-uri>"
+
+    *METEOR_SETTINGS* optional, if you are using a settings.json file or similar to configure your Meteor application
+
+        heroku config:set METEOR_SETTINGS="$(cat settings.json)"
 
 Once that's done, you can deploy your app using this build pack any time by pushing to heroku:
 
@@ -37,7 +43,7 @@ The following are some important environment variables for bundling and running 
 
 The basic buildpack should function correctly for any normal-ish meteor app,
 with or without npm-container.  For extra steps needed for your particular build,
-just add shell scripts to the `extra` folder and they will get sourced into the 
+just add shell scripts to the `extra` folder and they will get sourced into the
 build.
 
 Extras included in this branch:
